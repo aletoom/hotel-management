@@ -66,8 +66,18 @@ const MyReservations = () => {
   return (
     <div className="my-reservations">
       <div className="page-header">
-        <h1>📅 My Reservations</h1>
-        <p>View and manage your hotel bookings</p>
+        <div className="header-content">
+          <div>
+            <h1>📅 My Reservations</h1>
+            <p>View and manage your hotel bookings</p>
+          </div>
+          <button 
+            className="book-new-button"
+            onClick={() => navigate('/book-new-reservation')}
+          >
+            ➕ Book New Reservation
+          </button>
+        </div>
       </div>
 
       <div className="reservations-controls">

@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { mockReservations } from '../data/mockReservations';
 import type { Reservation } from '../types';
+import ModifyReservationModal from '../components/ModifyReservationModal';
 import '../styles/ReservationDetail.css';
 
 const ReservationDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [reservation, setReservation] = useState<Reservation | null>(null);
+  const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
 
   useEffect(() => {
     // TODO: Replace with actual API call
@@ -90,17 +92,38 @@ const ReservationDetail = () => {
 
   // Handle actions
   const handleModify = () => {
-    alert('Modify reservation functionality coming soon!');
+    setIsModifyModalOpen(true);
   };
 
-  const handleCancel = () => {
-    if (window.confirm('Are you sure you want to cancel this reservation?')) {
-      alert('Cancel reservation functionality coming soon!');
+  const handleSaveModification = (updatedData: Partial<Reservation>) => {
+    if (reservation) {
+      const updatedReservation = {
+        ...reservation,
+        ...updatedData,
+        updatedAt: new Date().toISOString(),
+      };
+      setReservation(updatedReservation);
+      // TODO: Send update to backend API
     }
   };
 
-  const handleContactSupport = () => {
-    alert('Contact support functionality coming soon!');
+  const handleCancel = () => {
+    if (window.confirm('Are you sure you want to cancel this reservation? This action cannot be undone.')) {
+      // Update reservation status to cancelled
+      if (reservation) {
+        const cancelledReservation = {
+          ...reservation,
+          status: 'cancelled' as const,
+          updatedAt: new Date().toISOString(),
+        };
+        setReservation(cancelledReservation);
+        
+        // Show success message
+        alert('✅ Reservation Cancelled Successfully!\n\nYour reservation has been cancelled.\n\nCancellation Details:\n• Booking ID: #' + reservation.id + '\n• Room: ' + reservation.roomDetails?.roomNumber + ' - ' + reservation.roomDetails?.roomType + '\n\nA confirmation email has been sent to ' + reservation.guestEmail);
+        
+        // TODO: Send cancellation to backend API
+      }
+    }
   };
 
   return (
@@ -111,6 +134,16 @@ const ReservationDetail = () => {
         </button>
         <h1>Reservation Details</h1>
       </div>
+
+      {/* Modify Reservation Modal */}
+      {reservation && (
+        <ModifyReservationModal
+          reservation={reservation}
+          isOpen={isModifyModalOpen}
+          onClose={() => setIsModifyModalOpen(false)}
+          onSave={handleSaveModification}
+        />
+      )}
 
       <div className="detail-container">
         {/* Main Info Card */}
@@ -246,9 +279,6 @@ const ReservationDetail = () => {
               </button>
               <button className="btn-action btn-cancel" onClick={handleCancel}>
                 ❌ Cancel Reservation
-              </button>
-              <button className="btn-action btn-support" onClick={handleContactSupport}>
-                💬 Contact Support
               </button>
             </div>
           </div>

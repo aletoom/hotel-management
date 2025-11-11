@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import MyReservations from './pages/MyReservations';
 import ReservationDetail from './pages/ReservationDetail';
+import BookNewReservation from './pages/BookNewReservation';
+import BookRoomForm from './pages/BookRoomForm';
 import UserManagement from './pages/UserManagement';
 import ReservationManagement from './pages/ReservationManagement';
 import RoomManagement from './pages/RoomManagement';
@@ -24,6 +26,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/my-reservations" element={<MyReservations />} />
             <Route path="/my-reservations/:id" element={<ReservationDetail />} />
+            <Route path="/book-new-reservation" element={<BookNewReservation />} />
+            <Route path="/book-room" element={<BookRoomForm />} />
             <Route path="/users" element={<UserManagement />} />
             <Route path="/reservations" element={<ReservationManagement />} />
             <Route path="/rooms" element={<RoomManagement />} />
