@@ -3,6 +3,8 @@ import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import MyReservations from './pages/MyReservations';
+import ReservationDetail from './pages/ReservationDetail';
 import UserManagement from './pages/UserManagement';
 import ReservationManagement from './pages/ReservationManagement';
 import RoomManagement from './pages/RoomManagement';
@@ -20,6 +22,8 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/my-reservations" element={<MyReservations />} />
+            <Route path="/my-reservations/:id" element={<ReservationDetail />} />
             <Route path="/users" element={<UserManagement />} />
             <Route path="/reservations" element={<ReservationManagement />} />
             <Route path="/rooms" element={<RoomManagement />} />

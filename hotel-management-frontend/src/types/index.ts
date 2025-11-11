@@ -28,6 +28,12 @@ export interface Reservation {
   status: 'pending' | 'confirmed' | 'checked-in' | 'checked-out' | 'cancelled';
   createdAt: string;
   updatedAt: string;
+  roomDetails?: {
+    roomNumber: string;
+    roomType: string;
+    floor: number;
+    pricePerNight: number;
+  };
 }
 
 // Room Types

@@ -16,7 +16,7 @@ const Dashboard = () => {
       title: 'Reservation Management',
       description: 'Handle room bookings, check-ins, check-outs, and reservation modifications',
       icon: '📅',
-      path: '/reservations',
+      path: '/my-reservations',
       color: '#F5A623'
     },
     {
