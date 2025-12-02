@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../styles/PaymentManagement.css";
 
-const PaymentDashboard = () => {
+const PaymentManagement = () => {
   return (
     <div className="subsystem-page">
       <div className="page-header">
@@ -30,4 +30,4 @@ const PaymentDashboard = () => {
   );
 };
 
-export default PaymentDashboard;
+export default PaymentManagement;
