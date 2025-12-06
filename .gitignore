@@ -37,3 +37,5 @@ ENV/
 *.log
 media/
 staticfiles/
+
+.env
