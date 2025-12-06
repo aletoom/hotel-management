@@ -1,30 +1,36 @@
-import { Link } from "react-router-dom";
-import "../styles/PaymentManagement.css";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface Bill {
   id: number;
-  guest: string;
-  total: number;
-  status: "Paid" | "Unpaid";
-  dueDate: string;
+  name: string;
+  amount: number;
+  room: number;
+  due_date: string;
+  taxes: number;
+  status: string;
 }
 
-const dummyBills: Bill[] = [
-  { id: 1, guest: "John Doe", total: 300, status: "Paid", dueDate: "2025-01-15" },
-  { id: 2, guest: "Sarah Kim", total: 180, status: "Unpaid", dueDate: "2025-01-20" },
-];
-
 const Bills = () => {
+  const [bills, setBills] = useState<Bill[]>([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/bills/")
+      .then(res => setBills(res.data))
+      .catch(err => console.error(err));
+  }, []);
+
+  const handleDelete = (id: number) => {
+    axios.delete(`http://localhost:8000/api/bills/${id}/`)
+      .then(() => setBills(bills.filter(b => b.id !== id)))
+      .catch(err => console.error(err));
+  };
+
   return (
     <div className="page-container">
-      <div className="page-header">
-        <h1>🧾 Bills</h1>
-        <p>View and manage all bills</p>
-      </div>
-
-      <div className="top-actions">
-        <Link to="/payments/bills/new" className="btn-primary">+ Add New Bill</Link>
-      </div>
+      <h1>🧾 Bills</h1>
+      <Link to="/payments/bills/new" className="btn-primary">+ Add New Bill</Link>
 
       <table className="styled-table">
         <thead>
@@ -39,18 +45,18 @@ const Bills = () => {
         </thead>
 
         <tbody>
-          {dummyBills.map(bill => (
+          {bills.map(bill => (
             <tr key={bill.id}>
               <td>{bill.id}</td>
-              <td>{bill.guest}</td>
-              <td>${bill.total}</td>
+              <td>{bill.name}</td>
+              <td>${bill.amount}</td>
               <td className={bill.status === "Paid" ? "status-paid" : "status-unpaid"}>
                 {bill.status}
               </td>
-              <td>{bill.dueDate}</td>
+              <td>{bill.due_date}</td>
               <td>
                 <Link to={`/payments/bills/${bill.id}`} className="table-btn edit">Edit</Link>
-                <button className="table-btn delete">Delete</button>
+                <button className="table-btn delete" onClick={() => handleDelete(bill.id)}>Delete</button>
               </td>
             </tr>
           ))}
